@@ -6,7 +6,7 @@ async function getTasks() {
     } catch (err) {
         console.error(err);
     }
-};
+}
 
 function renderTasks(tasks) {
     const ulTask = document.getElementById('task-ul');
