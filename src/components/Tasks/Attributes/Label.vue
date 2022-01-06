@@ -42,8 +42,9 @@ export default {
   },
   methods: {
     getRGBColor() {
-      //get color of the label from label object
+      //color of the label
       const wantedColor = this.label.color;
+      //find and return color code of label in colors object
       return this.colors.find((color) => color.name === wantedColor).code
     }
   }
@@ -52,9 +53,6 @@ export default {
 
 <style scoped>
 
-.label {
-  color: rgb(20, 170, 245);
-}
 
 svg {
   position: relative;

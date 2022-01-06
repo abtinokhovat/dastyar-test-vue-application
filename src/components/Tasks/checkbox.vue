@@ -1,7 +1,7 @@
 <template>
-  <!--  <input v-model="completed" :style="[priority == 0 ? priority == 1 : {}]" type="checkbox">-->
-  <div :class=priorityEnum(priority)
+  <div :style="priorityStyles(priority)"
        class="check-box"
+       @click="checkBoxClick(priority)"
        @mouseleave="hover = false"
        @mouseover="hover = true"
   >
@@ -15,28 +15,96 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "checkbox.vue",
   props: ['isDone', 'priority'],
   data() {
     return {
       hover: false,
-      completed: this.isDone
+      completed: this.isDone,
+      defaultStyles: {
+        backgroundColor: 'hsla(0, 0%, 50.2%, .1)',
+        borderColor: 'gray',
+        color: 'gray'
+      },
+      lowStyles: {
+        backgroundColor: 'rgba(209, 69, 59, .1)',
+        borderColor: '#d1453b',
+        color: '#d1453b'
+      },
+      mediumStyles: {
+        backgroundColor: 'rgba(235, 137, 9, .1)',
+        borderColor: '#eb8909',
+        color: '#eb8909'
+      },
+      highStyles: {
+        backgroundColor: 'rgba(36, 111, 224, .1)',
+        borderColor: '#246fe0',
+        color: '#246fe0'
+      }
     }
   },
   methods: {
-    priorityEnum(priority) {
+    //style check boxes by the priority of the tasks
+    priorityStyles(priority) {
       switch (priority) {
         case 0:
-          return 'none'
+          return this.defaultStyles
         case 1:
-          return 'low'
+          return this.lowStyles
         case 2:
-          return 'medium'
+          return this.mediumStyles
         case 3:
-          return 'high'
+          return this.highStyles
+      }
+    },
+    //update button style after click
+    updateStyleOnClick(priority) {
+      switch (priority) {
+        case 0:
+          this.defaultStyles.backgroundColor = this.defaultStyles.color
+          this.defaultStyles.color = 'white'
+          break
+        case 1:
+          this.lowStyles.backgroundColor = this.lowStyles.color
+          this.lowStyles.color = 'white'
+          break
+        case 2:
+          this.mediumStyles.backgroundColor = this.mediumStyles.color
+          this.mediumStyles.color = 'white'
+          break
+        case 3:
+          this.highStyles.backgroundColor = this.highStyles.color
+          this.highStyles.color = 'white'
+          break
+      }
+    },
+    checkBoxClick(priority) {
+      //update checkbox style
+      this.updateStyleOnClick(priority)
+      //get clicked task id
+      const id = this.$parent.$data.taskObject.id;
+      this.completeTask(id).then(res => {
+        //reload tasks
+        this.$store.dispatch('getTasks')
+            //updating state with new data
+            .then(() => this.tasks = this.$store.state.tasks)
+        console.log(res)
+      })
+    },
+    async completeTask(id) {
+      try {
+        //update a task status to completed
+        const resp = await axios.patch(`http://localhost:5119/api/Task/Complete/${id}`);
+        return resp.data;
+      } catch (err) {
+        console.error(err);
       }
     }
+
+
   }
 
 }
@@ -62,22 +130,4 @@ export default {
   bottom: 5px;
 }
 
-.low {
-  background-color: rgba(209, 69, 59, .1);
-  border-color: #d1453b;
-  color: #d1453b;
-}
-
-.medium {
-  background-color: rgba(235, 137, 9, .1);
-  border-color: #eb8909;
-  color: #eb8909;
-
-}
-
-.high {
-  background-color: rgba(36, 111, 224, .1);
-  border-color: #246fe0;
-  color: #246fe0;
-}
 </style>

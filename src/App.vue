@@ -4,10 +4,12 @@
 
 <script>
 import Tasks from './components/Tasks/Tasks.vue'
+import ErrorSpan from "@/components/EventNotification/Notification";
 
 export default {
   name: 'App',
   components: {
+    ErrorSpan,
     Tasks
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="task">
-    <div class="flex-item flex-item1">
+    <div class="flex-item">
       <checkbox :isDone="taskObject.isDone" :priority="taskObject.priority"></checkbox>
     </div>
     <div class="flex-item flex-item2">
@@ -28,9 +28,6 @@ export default {
     return {
       taskObject: this.task
     }
-  },
-  mounted() {
-    /*console.log(this.task)*/
   }
 }
 </script>
@@ -41,7 +38,7 @@ export default {
   padding: 0;
   cursor: pointer;
   max-width: 750px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #F0F0F0;
 }
 
 .description {
