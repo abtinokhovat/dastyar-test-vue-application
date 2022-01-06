@@ -1,4 +1,6 @@
-# dastyar-test-application
+# Dastyar Test Vue Application
+
+A simple task application with the refrence of todoist.com application.
 
 ## Project setup
 ```
