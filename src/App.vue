@@ -4,20 +4,36 @@
 
 <script>
 import Tasks from './components/Tasks/Tasks.vue'
-import ErrorSpan from "@/components/EventNotification/Notification";
 
 export default {
   name: 'App',
   components: {
-    ErrorSpan,
     Tasks
   }
 }
 </script>
 
 <style>
+
+:root {
+  --fontfamily: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Apple Color Emoji, Helvetica, Arial, sans-serif, Segoe UI Emoji, Segoe UI Symbol;
+  --borderColor: #DDDDDD;
+  --buttonHover: #EEEEEE;
+  --borderRadius: 0.25rem;
+  --dark-red: #DD4B39;
+}
+
+*:focus {
+  outline: none;
+}
+
+textarea {
+  font-family: var(--fontfamily);
+}
+
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--fontfamily);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

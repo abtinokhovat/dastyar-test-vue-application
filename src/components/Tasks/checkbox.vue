@@ -91,7 +91,6 @@ export default {
         this.$store.dispatch('getTasks')
             //updating state with new data
             .then(() => this.tasks = this.$store.state.tasks)
-        console.log(res)
       })
     },
     async completeTask(id) {

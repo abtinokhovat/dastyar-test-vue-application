@@ -1,19 +1,23 @@
 <template>
   <ul>
     <li v-for="task in this.$store.state.tasks" v-show="!task.isDone" :key="task.name">
-      <Task v-bind:task=task></Task>
+      <task v-bind:task=task></task>
+    </li>
+    <li>
+      <new-task-button text="Add task"/>
     </li>
   </ul>
 
 </template>
 
+
 <script>
 import Task from './Task'
-
+import NewTaskButton from "@/components/NewTask/NewTaskButton";
 
 export default {
   name: "Tasks.vue",
-  components: {Task},
+  components: {Task, NewTaskButton},
   mounted() {
     //get tasks on load of application
     this.$store.dispatch('getTasks')

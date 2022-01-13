@@ -31,7 +31,7 @@ export default {
         return {isValid: 0, text: '', color: ''}
       //due date time exceeded
       else if (this.isGone(dueDateFormatted))
-        return {isValid: 1, text: this.makeDateString(dueDateFormatted), color: 'red'}
+        return {isValid: 1, text: this.makeDateString(dueDateFormatted), color: '#D1443B'}
       //due date is for today
       else if (this.isToday(dueDate))
         return {isValid: 1, text: 'Today', color: '#048527'}

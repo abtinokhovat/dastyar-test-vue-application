@@ -10,7 +10,7 @@
       <div class="description flex-items">
         {{ taskObject.description }}
       </div>
-      <Attributes :date="taskObject.dueDate" :label="taskObject.label"></Attributes>
+      <attributes :date="taskObject.dueDate" :label="taskObject.label"></attributes>
     </div>
   </div>
 

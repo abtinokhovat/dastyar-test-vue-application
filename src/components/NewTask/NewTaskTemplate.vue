@@ -1,0 +1,157 @@
+<template>
+  <div id="new-task-template">
+    <div id="inputs">
+      <div id="name-description">
+        <input id="name"
+               v-model="taskName" class="inputs" placeholder="e.g., Renew gym every May 1st #Health" type="text"
+               @keypress.enter="newTask">
+        <textarea id="description" v-model="description"
+                  class="inputs"
+                  placeholder="Description">{{description}}</textarea>
+      </div>
+      <div id="buttons-footer">
+        <schedule></schedule>
+        <div>
+          <add-label></add-label>
+          <priority></priority>
+        </div>
+      </div>
+    </div>
+    <div id="buttons">
+      <button id="add-task"
+              :class="{deActive:!taskName}"
+              @click="newTask">
+        Add Task
+      </button>
+      <button id="cancel-button" @click="hide">
+        Cancel
+      </button>
+    </div>
+  </div>
+  <div></div>
+
+
+</template>
+
+<script>
+import Task, {Label, User} from "@/Classes/Task";
+import Priority from "@/components/NewTask/Priority";
+import Schedule from "@/components/NewTask/Schedule";
+import AddLabel from "@/components/NewTask/AddLabel";
+
+export default {
+  name: "NewTaskTemplate",
+  components: {AddLabel, Schedule, Priority},
+  data() {
+    return {
+      taskName: '',
+      description: ''
+    }
+  },
+  methods: {
+    /* Hide the new task Template */
+    hide() {
+      this.$parent.showTemplate = false;
+      this.$parent.showButton = true;
+    },
+    newTask() {
+      /*hard Coded user id*/
+      const userId = "a18f6e3a-0f71-43d5-a6e4-d06bc4d3655f";
+      const user = new User(userId);
+      const label = new Label(1);
+      const task = new Task(this.taskName, user, this.description, label);
+      task.postTask(task
+      ).then(() =>
+          //updating state with new data
+          this.$store.dispatch('getTasks')
+              .then(() => this.tasks = this.$store.state.tasks)
+      ).then(() => {
+            /* empty inputs after adding task */
+            this.taskName = ''
+            this.description = ''
+          }
+      )
+    },
+
+  },
+}
+</script>
+
+<style scoped>
+
+
+#new-task-template {
+  margin-top: 10px;
+  text-align: left;
+  max-width: 750px;
+}
+
+#inputs {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid;
+  border-color: var(--borderColor);
+  border-radius: 0.25rem;
+}
+
+#name {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+#description {
+  font-size: 13px;
+  line-height: 18px;
+  overflow: hidden;
+  min-height: 20px;
+  resize: none;
+}
+
+#buttons-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.inputs {
+  width: 100%;
+  max-width: 800px;
+  background: transparent;
+  border: transparent;
+}
+
+/* buttons */
+
+#add-task, #cancel-button {
+  padding: 7px 10px 7px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid;
+  border-color: var(--borderColor);
+  border-radius: 0.25rem;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+#add-task {
+  color: white;
+  background-color: #db4c3f;
+}
+
+.deActive {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+#cancel-button {
+  background-color: white;
+}
+
+#cancel-button:hover {
+  background-color: var(--buttonHover);
+}
+
+
+</style>
