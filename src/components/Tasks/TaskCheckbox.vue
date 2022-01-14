@@ -1,5 +1,5 @@
 <template>
-  <div :style="priorityStyles(priority)"
+  <div :style="mapPriorityStyles(priority)"
        class="check-box"
        @click="checkBoxClick(priority)"
        @mouseleave="hover = false"
@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import axios from "axios";
+import Task from "@/classes/Task";
 
 export default {
-  name: "checkbox.vue",
+  name: "TaskCheckbox",
   props: ['isDone', 'priority'],
   data() {
     return {
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     //style check boxes by the priority of the tasks
-    priorityStyles(priority) {
+    mapPriorityStyles(priority) {
       switch (priority) {
         case 0:
           return this.defaultStyles
@@ -86,24 +86,14 @@ export default {
       this.updateStyleOnClick(priority)
       //get clicked task id
       const id = this.$parent.$data.taskObject.id;
-      this.completeTask(id).then(res => {
-        //reload tasks
-        this.$store.dispatch('getTasks')
-            //updating state with new data
-            .then(() => this.tasks = this.$store.state.tasks)
-      })
-    },
-    async completeTask(id) {
-      try {
-        //update a task status to completed
-        const resp = await axios.patch(`http://localhost:5119/api/Task/Complete/${id}`);
-        return resp.data;
-      } catch (err) {
-        console.error(err);
-      }
+      const task = new Task();
+      task.completeTask(id).then(() =>
+          //reload tasks
+          this.$store.dispatch('getTasks')
+              //updating state with new data
+              .then(() => this.tasks = this.$store.state.tasks)
+      )
     }
-
-
   }
 
 }

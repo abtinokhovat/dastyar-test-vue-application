@@ -12,7 +12,7 @@
     </div>
 
     <div id="text" :style="this.textStyles">
-      {{ this.$attrs.text }}
+      {{ this.text }}
     </div>
 
   </div>
@@ -25,6 +25,7 @@ import NewTaskTemplate from "@/components/NewTask/NewTaskTemplate";
 
 export default {
   name: "NewTask",
+  props: ['text'],
   inheritAttrs: false,
   components: {NewTaskTemplate},
   data() {

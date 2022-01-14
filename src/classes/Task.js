@@ -6,12 +6,12 @@ export default class Task {
     user,
     description = "",
     label = 1,
-    isDone = false,
-    priority = 0,
+    priority = 4,
     dueDate = null,
     subTasks = [],
     order,
-    assigned = null
+    assigned = null,
+    isDone = false
   ) {
     this.name = name;
     this.isDone = isDone;
@@ -44,6 +44,18 @@ export default class Task {
         if (a.order > b.order) return 1;
         return 0;
       });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async completeTask(id) {
+    try {
+      //update a task status to completed
+      const resp = await axios.patch(
+        `http://localhost:5119/api/Task/Complete/${id}`
+      );
+      return resp.data;
     } catch (err) {
       console.error(err);
     }

@@ -7,13 +7,13 @@
                @keypress.enter="newTask">
         <textarea id="description" v-model="description"
                   class="inputs"
-                  placeholder="Description">{{description}}</textarea>
+                  placeholder="Description"></textarea>
       </div>
       <div id="buttons-footer">
         <schedule></schedule>
         <div>
           <add-label></add-label>
-          <priority></priority>
+          <priority @update-priority="updatePriority"></priority>
         </div>
       </div>
     </div>
@@ -34,10 +34,10 @@
 </template>
 
 <script>
-import Task, {Label, User} from "@/Classes/Task";
-import Priority from "@/components/NewTask/Priority";
-import Schedule from "@/components/NewTask/Schedule";
-import AddLabel from "@/components/NewTask/AddLabel";
+import Task, {Label, User} from "@/classes/Task";
+import Priority from "@/components/NewTask/Priority/Priority";
+import Schedule from "@/components/NewTask/NewTaskSchedule";
+import AddLabel from "@/components/NewTask/NewTaskLabel";
 
 export default {
   name: "NewTaskTemplate",
@@ -45,7 +45,8 @@ export default {
   data() {
     return {
       taskName: '',
-      description: ''
+      description: '',
+      priority: 4
     }
   },
   methods: {
@@ -59,7 +60,8 @@ export default {
       const userId = "a18f6e3a-0f71-43d5-a6e4-d06bc4d3655f";
       const user = new User(userId);
       const label = new Label(1);
-      const task = new Task(this.taskName, user, this.description, label);
+      const priority = this.priority;
+      const task = new Task(this.taskName, user, this.description, label, priority);
       task.postTask(task
       ).then(() =>
           //updating state with new data
@@ -72,6 +74,9 @@ export default {
           }
       )
     },
+    updatePriority(priority) {
+      this.priority = priority
+    }
 
   },
 }

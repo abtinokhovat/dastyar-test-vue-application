@@ -1,7 +1,7 @@
 <template>
   <div class="task">
     <div class="flex-item">
-      <checkbox :isDone="taskObject.isDone" :priority="taskObject.priority"></checkbox>
+      <task-checkbox :isDone="taskObject.isDone" :priority="taskObject.priority"></task-checkbox>
     </div>
     <div class="flex-item flex-item2">
       <div class="name flex-items">
@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import Checkbox from './checkbox'
+import TaskCheckbox from './TaskCheckbox'
 import Attributes from './Attributes/Attributes'
 
 export default {
   name: "Task.vue",
-  components: {Checkbox, Attributes},
+  components: {TaskCheckbox, Attributes},
   props: ['task'],
   data() {
     return {
