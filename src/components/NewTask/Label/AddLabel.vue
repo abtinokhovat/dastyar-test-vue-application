@@ -20,15 +20,17 @@ import AddLabelContext from "@/components/NewTask/Label/AddLabelContext";
 export default {
   name: "AddLabel",
   components: {AddLabelContext},
-  data() {
-    return {
-      popper: false,
-    }
-  },
   methods: {
     //toggle popper visibility
     togglePopper() {
-      this.popper = !this.popper;
+      this.$store.commit('togglePopper', 'label')
+    }
+  },
+  computed: {
+    popper: {
+      get() {
+        return this.$store.getters.getPoppers('label')
+      }
     }
   }
 }

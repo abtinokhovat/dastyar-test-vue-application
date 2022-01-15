@@ -16,7 +16,6 @@ export default {
   emits: ['update-priority'],
   data() {
     return {
-      popper: false,
       selected: 4,
       priorities: [
         {
@@ -39,13 +38,19 @@ export default {
     }
   },
   methods: {
-    //toggle popper visibility
-    togglePopper() {
-      this.popper = !this.popper;
-    },
     //find color data
     findColor() {
       return this.priorities.find(found => found.number === this.selected).color
+    },
+    togglePopper() {
+      this.$store.commit('togglePopper', 'priority')
+    }
+  },
+  computed: {
+    popper: {
+      get() {
+        return this.$store.getters.getPoppers('priority')
+      }
     }
   }
 }

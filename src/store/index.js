@@ -8,14 +8,30 @@ export default createStore({
       tasks: [],
       labels: [],
       selectedLabel: {},
+      poppers: {
+        label: false,
+        priority: false,
+      },
     };
   },
   getters: {
     getLabels(state) {
       return state.labels;
     },
+    getPoppers: (state) => (popper) => {
+      return state.poppers[popper];
+    },
   },
   mutations: {
+    togglePopper(state, popper) {
+      //close other poppers if open
+      for (const pop in state.poppers) {
+        if (pop !== popper) {
+          state.poppers[pop] = false;
+        }
+      }
+      state.poppers[popper] = !state.poppers[popper];
+    },
     setTasks(state, tasks) {
       state.tasks = tasks;
     },

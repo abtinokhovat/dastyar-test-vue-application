@@ -3,9 +3,9 @@
     <div id="inputs">
       <div id="name-description">
         <div style="display: flex">
-          <div v-show="(Object.keys(this.$store.state.selectedLabel).length !== 0)" class="label-name">
+          <div v-show="(Object.keys(tasks).length !== 0)" class="label-name">
             <svg-label-filled class="svg-label" color="white"></svg-label-filled>
-            <div>{{ this.$store.state.selectedLabel.name }}</div>
+            <div>{{ tasks.name }}</div>
           </div>
           <input id="name"
                  v-model="taskName" class="inputs" placeholder="e.g., Renew gym every May 1st #Health" type="text"
@@ -13,7 +13,8 @@
         </div>
         <textarea id="description" v-model="description"
                   class="inputs"
-                  placeholder="Description"></textarea>
+                  placeholder="Description"
+        ></textarea>
       </div>
       <div id="buttons-footer">
         <schedule></schedule>
@@ -89,9 +90,16 @@ export default {
     //event for updating priority
     updatePriority(priority) {
       this.priority = priority
-    }
+    },
 
   },
+  computed: {
+    tasks: {
+      get() {
+        return this.$store.state.selectedLabel
+      }
+    }
+  }
 }
 </script>
 

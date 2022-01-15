@@ -26,9 +26,11 @@ export default {
   },
   methods: {
     changePriority(id) {
-      this.$parent.popper = false
       this.$parent.selected = id
+      //emit data to new-task-template
       this.$parent.$emit('update-priority', id)
+      //close popper
+      this.$store.commit('togglePopper', 'priority')
     }
   }
 }
