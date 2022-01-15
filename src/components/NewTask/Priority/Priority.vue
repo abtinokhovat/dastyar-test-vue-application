@@ -1,8 +1,9 @@
 <template>
-  <span class="svg-button" @click="changePopperVisibility">
+  <span class="svg-button" @click="togglePopper">
+    <!--set color to flag-->
     <svg-flag :color="findColor()"></svg-flag>
   </span>
-  <priority-context v-if="popper" :priorities="priorities"></priority-context>
+  <priority-context v-if="popper" :priorities="priorities" :selected="selected"></priority-context>
 </template>
 
 <script>
@@ -38,9 +39,11 @@ export default {
     }
   },
   methods: {
-    changePopperVisibility() {
+    //toggle popper visibility
+    togglePopper() {
       this.popper = !this.popper;
     },
+    //find color data
     findColor() {
       return this.priorities.find(found => found.number === this.selected).color
     }

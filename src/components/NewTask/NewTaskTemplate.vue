@@ -2,9 +2,15 @@
   <div id="new-task-template">
     <div id="inputs">
       <div id="name-description">
-        <input id="name"
-               v-model="taskName" class="inputs" placeholder="e.g., Renew gym every May 1st #Health" type="text"
-               @keypress.enter="newTask">
+        <div style="display: flex">
+          <div v-show="(Object.keys(this.$store.state.selectedLabel).length !== 0)" class="label-name">
+            <svg-label-filled class="svg-label" color="white"></svg-label-filled>
+            <div>{{ this.$store.state.selectedLabel.name }}</div>
+          </div>
+          <input id="name"
+                 v-model="taskName" class="inputs" placeholder="e.g., Renew gym every May 1st #Health" type="text"
+                 @keypress.enter="newTask">
+        </div>
         <textarea id="description" v-model="description"
                   class="inputs"
                   placeholder="Description"></textarea>
@@ -34,14 +40,16 @@
 </template>
 
 <script>
-import Task, {Label, User} from "@/classes/Task";
+import {Label} from "@/classes/Label";
+import Task, {User} from "@/classes/Task";
 import Priority from "@/components/NewTask/Priority/Priority";
 import Schedule from "@/components/NewTask/NewTaskSchedule";
-import AddLabel from "@/components/NewTask/NewTaskLabel";
+import AddLabel from "@/components/NewTask/Label/AddLabel";
+import SvgLabelFilled from "@/components/Svg/SvgLabelFilled";
 
 export default {
   name: "NewTaskTemplate",
-  components: {AddLabel, Schedule, Priority},
+  components: {SvgLabelFilled, AddLabel, Schedule, Priority},
   data() {
     return {
       taskName: '',
@@ -50,16 +58,17 @@ export default {
     }
   },
   methods: {
-    /* Hide the new task Template */
+    //Hide the new task Template
     hide() {
       this.$parent.showTemplate = false;
       this.$parent.showButton = true;
     },
     newTask() {
-      /*hard Coded user id*/
+      //hard Coded user id
       const userId = "a18f6e3a-0f71-43d5-a6e4-d06bc4d3655f";
       const user = new User(userId);
-      const label = new Label(1);
+      const labelId = (Object.keys(this.$store.state.selectedLabel).length === 0) ? 1 : this.$store.state.selectedLabel.id;
+      const label = new Label(labelId);
       const priority = this.priority;
       const task = new Task(this.taskName, user, this.description, label, priority);
       task.postTask(task
@@ -68,12 +77,16 @@ export default {
           this.$store.dispatch('getTasks')
               .then(() => this.tasks = this.$store.state.tasks)
       ).then(() => {
-            /* empty inputs after adding task */
+            //empty inputs after adding task
             this.taskName = ''
             this.description = ''
+            //empty label in store
+            this.$store.commit('selectLabel', {})
+
           }
       )
     },
+    //event for updating priority
     updatePriority(priority) {
       this.priority = priority
     }
@@ -125,6 +138,18 @@ export default {
   max-width: 800px;
   background: transparent;
   border: transparent;
+}
+
+.label-name {
+  display: flex;
+  align-items: center;
+  padding-right: 3px;
+  background-color: #DD4B39;
+  color: white;
+  border-radius: var(--borderRadius);
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 5px;
 }
 
 /* buttons */

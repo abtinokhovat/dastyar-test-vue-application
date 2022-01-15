@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const url = "http://localhost:5119/api";
+
 export default class Task {
   constructor(
     name,
@@ -27,7 +29,7 @@ export default class Task {
 
   async postTask(data) {
     try {
-      const resp = await axios.post("http://localhost:5119/api/Task", data);
+      const resp = await axios.post(`${url}/Task`, data);
       return resp.data;
     } catch (err) {
       console.error(err);
@@ -37,7 +39,7 @@ export default class Task {
   async getTasks() {
     try {
       //getting tasks from api
-      const resp = await axios.get("http://localhost:5119/api/Tasks");
+      const resp = await axios.get(`${url}/Tasks`);
       //sorting tasks by the order
       return resp.data.response.sort((a, b) => {
         if (a.order < b.order) return -1;
@@ -52,9 +54,7 @@ export default class Task {
   async completeTask(id) {
     try {
       //update a task status to completed
-      const resp = await axios.patch(
-        `http://localhost:5119/api/Task/Complete/${id}`
-      );
+      const resp = await axios.patch(`${url}/Task/Complete/${id}`);
       return resp.data;
     } catch (err) {
       console.error(err);
@@ -66,14 +66,5 @@ export class User {
   constructor(id, name) {
     this.id = id;
     this.name = name;
-  }
-}
-
-export class Label {
-  constructor(id, name, order, color) {
-    this.id = id;
-    this.name = name;
-    this.color = color;
-    this.order = order;
   }
 }

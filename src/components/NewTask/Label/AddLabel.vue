@@ -1,5 +1,5 @@
 <template>
-  <span class="svg-button">
+  <span class="svg-button" @click="togglePopper">
     <svg data-svgs-path="sm1/label_outline.svg"
          height="24"
          viewBox="0 0 24 24"
@@ -11,11 +11,26 @@
       </path>
     </svg>
   </span>
+  <add-label-context v-if="popper"></add-label-context>
 </template>
 
 <script>
+import AddLabelContext from "@/components/NewTask/Label/AddLabelContext";
+
 export default {
-  name: "AddLabel"
+  name: "AddLabel",
+  components: {AddLabelContext},
+  data() {
+    return {
+      popper: false,
+    }
+  },
+  methods: {
+    //toggle popper visibility
+    togglePopper() {
+      this.popper = !this.popper;
+    }
+  }
 }
 </script>
 

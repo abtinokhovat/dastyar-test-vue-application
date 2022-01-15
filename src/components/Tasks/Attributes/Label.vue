@@ -1,5 +1,5 @@
 <template>
-  <div :style="{color: getRGBColor()}" class="label">
+  <div :style="{color: label.color}" class="label">
     <svg height="12" viewBox="0 0 12 12" width="12"
          xmlns="http://www.w3.org/2000/svg">
       <path
@@ -13,41 +13,7 @@
 <script>
 export default {
   name: "Label",
-  props: ['label'],
-  data() {
-    return {
-      colors: [
-        {name: 'berryRed', code: 'rgb(184, 37, 95)'},
-        {name: 'red', code: 'rgb(219, 64, 53)'},
-        {name: 'orange', code: 'rgb(255, 153, 51)'},
-        {name: 'yellow', code: 'rgb(250, 208, 0)'},
-        {name: 'oliveGreen', code: 'rgb(175, 184, 59)'},
-        {name: 'limeGreen', code: 'rgb(126, 204, 73)'},
-        {name: 'green', code: 'rgb(41, 148, 56)'},
-        {name: 'mintGreen', code: 'rgb(106, 204, 188)'},
-        {name: 'teal', code: 'rgb(21, 143, 173)'},
-        {name: 'skyBlue', code: 'rgb(20, 170, 245)'},
-        {name: 'lightBlue', code: 'rgb(150, 195, 235)'},
-        {name: 'blue', code: 'rgb(64, 115, 255)'},
-        {name: 'grape', code: 'rgb(136, 77, 255)'},
-        {name: 'violet', code: 'rgb(175, 56, 235)'},
-        {name: 'lavender', code: 'rgb(235, 150, 235)'},
-        {name: 'magenta', code: 'rgb(224, 81, 148)'},
-        {name: 'salmon', code: 'rgb(255, 141, 133)'},
-        {name: 'charcoal', code: 'rgb(128, 128, 128)'},
-        {name: 'grey', code: 'rgb(184, 184, 184)'},
-        {name: 'taupe', code: 'rgb(204, 172, 147)'},
-      ]
-    }
-  },
-  methods: {
-    getRGBColor() {
-      //color of the label
-      const wantedColor = this.label.color;
-      //find and return color code of label in colors object
-      return this.colors.find((color) => color.name === wantedColor).code
-    }
-  }
+  props: ['label']
 }
 </script>
 

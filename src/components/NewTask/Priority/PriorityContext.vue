@@ -4,7 +4,7 @@
       <li v-for="priority in priorities" :key="priority.number" @click="changePriority(priority.number)">
         <svg-flag :color="priority.color"></svg-flag>
         <div>Priority {{ priority.number }}</div>
-        <svg-tick v-show="selected === priority.number" class="tick" color="#DD4B39"></svg-tick>
+        <svg-tick v-show="this.selected === priority.number" class="tick" color="#DD4B39"></svg-tick>
       </li>
     </ul>
   </div>
